@@ -183,6 +183,7 @@ function ChatRoom(props) {
           placeholder="Message"
           onChange={(e) => setFormValue(e.target.value)}
           value={formValue}
+          autoComplete='off'
         />
         <ReactMic
           record={record}

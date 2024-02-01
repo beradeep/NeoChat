@@ -10,7 +10,10 @@ function ChatMessage(props) {
   const [colorBlindness, setColorBlindness] = useState(false);
   const selectedPreference = props.selectedPreference;
   const { text, uid, photoURL, audioURL, imageURL, createdAt } = props.message;
-  const formattedTime = createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Assuming createdAt is a Firebase timestamp
+  let formattedTime = null;
+  if (createdAt) {
+    formattedTime = createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Assuming createdAt is a Firebase timestamp
+  }
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
   const [transcription, setTranscription] = useState(null);
 
@@ -64,7 +67,7 @@ function ChatMessage(props) {
         {selectedPreference === 'Deafness' && audioURL ? <p className="bg-slate-50 px-4 py-2 rounded-3xl">{transcription}</p> : audioURL && <audio controls src={audioURL}></audio>}
         {imageURL && colorBlindness && <img src={imageURL} className={`rounded-xl ${selectedPreference}`} alt="image" style={{ width: '300px', aspectRatio: '[3/2]' }} />}
         {imageURL && !colorBlindness && <img src={imageURL} className="rounded-xl" alt="image" style={{ width: '300px', aspectRatio: '[3/2]' }} />}
-        <p className='text-xs flex items-end'>{formattedTime}</p>
+        {formattedTime && <p className='text-xs flex items-end'>{formattedTime}</p>}
       </div>
     </div>
   );
