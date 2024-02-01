@@ -7,6 +7,7 @@ const client = new AssemblyAI({
 })
 
 function ChatMessage(props) {
+  const [colorBlindness, setColorBlindness] = useState(false);
   const selectedPreference = props.selectedPreference;
   const { text, uid, photoURL, audioURL, imageURL, createdAt } = props.message;
   let formattedTime = null;
@@ -15,6 +16,14 @@ function ChatMessage(props) {
   }
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
   const [transcription, setTranscription] = useState(null);
+
+  useEffect(() => {
+    if (selectedPreference === 'cone-monochromacy' || selectedPreference === 'rod-monochromacy' || selectedPreference === 'protanopia' || selectedPreference === 'deuteranopia' || selectedPreference === 'tritanopia') {
+      setColorBlindness(true);
+    } else {
+      setColorBlindness(false);
+    }
+  }, [selectedPreference]);
 
   const textToSpeech = (text) => {
     console.log("text to speech called");
@@ -56,8 +65,8 @@ function ChatMessage(props) {
           !audioURL && <p>{text}</p>
         )}
         {selectedPreference === 'Deafness' && audioURL ? <p className="bg-slate-50 px-4 py-2 rounded-3xl">{transcription}</p> : audioURL && <audio controls src={audioURL}></audio>}
-        {imageURL && selectedPreference == "Color-Blindness" && <img src={imageURL} className={`rounded-xl ${selectedPreference}`} alt="image" style={{ width: '300px', aspectRatio: '[3/2]' }} />}
-        {imageURL && !(selectedPreference === "Color-Blindness") && <img src={imageURL} className="rounded-xl" alt="image" style={{ width: '300px', aspectRatio: '[3/2]' }} />}
+        {imageURL && colorBlindness && <img src={imageURL} className={`rounded-xl ${selectedPreference}`} alt="image" style={{ width: '300px', aspectRatio: '[3/2]' }} />}
+        {imageURL && !colorBlindness && <img src={imageURL} className="rounded-xl" alt="image" style={{ width: '300px', aspectRatio: '[3/2]' }} />}
         {formattedTime && <p className='text-xs flex items-end'>{formattedTime}</p>}
       </div>
     </div>
