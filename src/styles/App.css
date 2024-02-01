@@ -1,11 +1,17 @@
 .sent {
     margin-left: auto;
     flex-direction: row-reverse;
+    max-width: 55%;
+}
+
+.sent>div{
+
 }
 
 .received {
     margin-right: auto;
     flex-direction: row;
+    max-width: 55%;
 }
 
 .App {
