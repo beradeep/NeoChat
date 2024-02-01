@@ -7,11 +7,20 @@ const client = new AssemblyAI({
 })
 
 function ChatMessage(props) {
+  const [colorBlindness, setColorBlindness] = useState(false);
   const selectedPreference = props.selectedPreference;
   const { text, uid, photoURL, audioURL, imageURL, createdAt } = props.message;
   const formattedTime = createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Assuming createdAt is a Firebase timestamp
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
   const [transcription, setTranscription] = useState(null);
+
+  useEffect(() => {
+    if (selectedPreference === 'cone-monochromacy' || selectedPreference === 'rod-monochromacy' || selectedPreference === 'protanopia' || selectedPreference === 'deuteranopia' || selectedPreference === 'tritanopia') {
+      setColorBlindness(true);
+    } else {
+      setColorBlindness(false);
+    }
+  }, [selectedPreference]);
 
   const textToSpeech = (text) => {
     console.log("text to speech called");
