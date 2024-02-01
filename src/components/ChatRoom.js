@@ -117,7 +117,6 @@ function ChatRoom(props) {
       dummy.current.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Send voice message if there is a recorded audio
     if (blob) {
       await sendVoiceMessage();
     }
@@ -166,7 +165,7 @@ function ChatRoom(props) {
 
   return (
     <>
-      <main id="chat-box-screen" className="overflow-y-scroll chat-box-screen flex flex-col py-3 px-8 gap-y-5 bg-gray-900">
+      <main id="chat-box-screen" className="overflow-y-scroll chat-box-screen flex flex-col p-2 gap-y-5 bg-gray-900">
         <div  className='flex min-h-full flex-col'>
           {messages && messages.map((msg) => (
             <ChatMessage key={msg.id} message={msg} selectedPreference={selectedPreference} />
@@ -178,8 +177,6 @@ function ChatRoom(props) {
       </main>
 
       <form onSubmit={sendMessage} className="form fixed right-0 left-0 bottom-0 h-15 flex items-center justify-evenly px-5 bg-gray-900 text-slate-50">
-
-        
         <input
           type="text" id="first_name"
           className="bg-gray-50 h-11 border border-gray-300 text-slate-50 outline-slate-900 text-sm rounded-3xl focus:ring-blue-500 focus:border-blue-500 block w-4/5 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-500 dark:focus:border-slate-500"

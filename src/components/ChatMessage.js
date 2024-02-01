@@ -9,7 +9,8 @@ const client = new AssemblyAI({
 function ChatMessage(props) {
   const [colorBlindness, setColorBlindness] = useState(false);
   const selectedPreference = props.selectedPreference;
-  const { text, uid, photoURL, audioURL, imageURL } = props.message;
+  const { text, uid, photoURL, audioURL, imageURL, createdAt } = props.message;
+  const formattedTime = createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Assuming createdAt is a Firebase timestamp
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
   const [transcription, setTranscription] = useState(null);
 
@@ -50,18 +51,21 @@ function ChatMessage(props) {
   }, [selectedPreference, audioURL]);
 
   return (
-    <div className={`message ${messageClass} flex gap-x-3 items-center py-3`}>
-      <img className="rounded-full w-8 h-8" src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt="user" />
-      {selectedPreference === 'Blindness' ? (
-        <div>
-          {text && <button onClick={() => textToSpeech(text)}>Speak</button>}
-        </div>
-      ) : (
-        !audioURL && <p className={(messageClass == 'sent'? "bg-blue-600": "bg-slate-600")+(text && " px-4 py-2")+" rounded-3xl"}>{text}</p>
-      )}
-      {selectedPreference === 'Deafness' && audioURL ? <p className="bg-slate-50 px-4 py-2 rounded-3xl">{transcription}</p> : audioURL && <audio controls src={audioURL}></audio>}
-      {imageURL && colorBlindness && <img src={imageURL} className={`rounded-xl ${selectedPreference}`} alt="image" style={{ width: '300px', aspectRatio: '[3/2]' }} />}
-      {imageURL && !colorBlindness && <img src={imageURL} className="rounded-xl" alt="image" style={{ width: '300px', aspectRatio: '[3/2]' }} />}
+    <div className={`message ${messageClass} flex gap-x-1 items-center py-3`}>
+      <img className="rounded-full w-10 h-10" src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt="user" />
+      <div className={messageClass == 'sent'? "bg-blue-600 px-3 py-2 rounded-lg flex gap-x-2": "bg-slate-600 px-3 py-2 rounded-lg flex gap-x-2"}>
+        {selectedPreference === 'Blindness' ? (
+          <div>
+            {text && <button onClick={() => textToSpeech(text)}>Speak</button>}
+          </div>
+        ) : (
+          !audioURL && <p>{text}</p>
+        )}
+        {selectedPreference === 'Deafness' && audioURL ? <p className="bg-slate-50 px-4 py-2 rounded-3xl">{transcription}</p> : audioURL && <audio controls src={audioURL}></audio>}
+        {imageURL && selectedPreference == "Color-Blindness" && <img src={imageURL} className={`rounded-xl ${selectedPreference}`} alt="image" style={{ width: '300px', aspectRatio: '[3/2]' }} />}
+        {imageURL && !(selectedPreference === "Color-Blindness") && <img src={imageURL} className="rounded-xl" alt="image" style={{ width: '300px', aspectRatio: '[3/2]' }} />}
+        <p className='text-xs flex items-end'>{formattedTime}</p>
+      </div>
     </div>
   );
 }
