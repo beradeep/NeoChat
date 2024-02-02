@@ -8,6 +8,8 @@ messages to others.
 
 3. On the receiver’s side, the processing happens. If the receiver is
 
+![Screenshot 2024-02-02 at 10 32 44 PM](https://github.com/ani1609/NeoChat/assets/91966855/3361448c-c391-49b8-a6ba-ec02dd46f62f)
+
 - Deaf: All audio files sent to the receiver is transcribed to text
 which shows up a as a regular text message.
 - Color-blind: All image files go through a color filter to assist
