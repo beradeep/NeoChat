@@ -55,7 +55,7 @@ function ChatMessage(props) {
 
   return (
     <div className={`message ${messageClass} flex gap-x-1 items-center py-3`}>
-      <img className="rounded-full w-10 h-10" src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt="user" />
+      <img className="rounded-full w-10 h-10" src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt="user" style={{marginTop:"auto"}}/>
       <div className={messageClass == 'sent'? "bg-blue-600 px-3 py-2 rounded-lg flex gap-x-2": "bg-slate-600 px-3 py-2 rounded-lg flex gap-x-2"}>
         {selectedPreference === 'Blindness' ? (
           <div>
