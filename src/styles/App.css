@@ -59,27 +59,28 @@
     overflow-y: scroll !important;
 }
 
-/* Deuteranopia (red-green color blindness) */
+/* Deuteranopia */
 .deuteranopia {
-    filter: grayscale(100%) contrast(75%) brightness(100%) sepia(30%);
-}
-
-/* Protanopia (red-green color blindness) */
-.protanopia {
-    filter: grayscale(100%) contrast(50%) brightness(100%) sepia(20%);
-}
-
-/* Tritanopia (blue-yellow color blindness) */
-.tritanopia {
-    filter: grayscale(100%) contrast(100%) brightness(100%) sepia(10%);
-}
-
-/* Monochromacy (Achromatopsia) - Rod Monochromacy */
-.rod-monochromacy {
+    filter: hue-rotate(45deg);
+  }
+  
+  /* Protanopia */
+  .protanopia {
+    filter: hue-rotate(60deg);
+  }
+  
+  /* Tritanopia */
+  .tritanopia {
+    filter: hue-rotate(200deg);
+  }
+  
+  /* Rod Monochromacy */
+  .rod-monochromacy {
     filter: grayscale(100%);
-}
-
-/* Monochromacy (Cone Monochromacy) */
-.cone-monochromacy {
-    filter: grayscale(80%) contrast(50%) brightness(100%);
-}
+  }
+  
+  /* Cone Monochromacy */
+  .cone-monochromacy {
+    filter: grayscale(100%);
+  }
+  

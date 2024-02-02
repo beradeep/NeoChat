@@ -30,7 +30,7 @@ function Navbar(props) {
   const inactiveClass = "block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700";
   return (
     <nav className="sticky flex flex-wrap items-center justify-between top-0 box-border py-5 px-7 bg-gray-900 z-20">
-        <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <a className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="https://i.ibb.co/kGFrNZP/Bridge-Together.png" alt="BridgeTogether Logo" className="rounded-full h-12" />
           <span className="self-center text-3xl font-semibold whitespace-nowrap dark:text-white">NeoChat</span>
         </a>
