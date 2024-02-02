@@ -152,7 +152,7 @@ function ChatRoom(props) {
   return (
     <>
       <main ref={dummy} id="chat-box-screen" className="overflow-y-scroll chat-box-screen flex flex-col p-2 gap-y-5 bg-gray-900">
-        <div  className='flex min-h-full flex-col'>
+        <div  className='flex min-h-full flex-col no-scrollbar'>
           {messages && messages.map((msg) => (
             <ChatMessage key={msg.id} message={msg} selectedPreference={selectedPreference} />
           ))}
@@ -176,10 +176,6 @@ function ChatRoom(props) {
           strokeColor="#fff"
           backgroundColor="#364050"
         />
-
-        {/* <button type="button" onClick={() => setRecord(!record)} className="relative size-11 inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-          <span className={`relative flex p-1.5 items-center gap-x-3 transition-all ease-in duration-100 text-white ${record ? "bg-transparent" : "bg-gray-900"} dark:bg-gray-900 rounded-full size-10`}>{record ? stopRecord : startRecord}</span>
-        </button> */}
 
         <label htmlFor="file-upload" className="cursor-pointer p-1">
           <Clip className="w-8 h-8 fill-white" />
