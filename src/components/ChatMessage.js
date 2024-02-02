@@ -59,12 +59,12 @@ function ChatMessage(props) {
       <div className={messageClass == 'sent'? "bg-blue-600 px-3 py-2 rounded-lg flex gap-x-2": "bg-slate-600 px-3 py-2 rounded-lg flex gap-x-2"}>
         {selectedPreference === 'Blindness' ? (
           <div>
-            {text && <button onClick={() => textToSpeech(text)}>Speak</button>}
+            {text && <button className='border text-base p-1 rounded-lg' onClick={() => textToSpeech(text)}>Speak</button>}
           </div>
         ) : (
           !audioURL && <p>{text}</p>
         )}
-        {selectedPreference === 'Deafness' && audioURL ? <p className="bg-slate-50 px-4 py-2 rounded-3xl">{transcription}</p> : audioURL && <audio controls src={audioURL}></audio>}
+        {selectedPreference === 'Deafness' && audioURL ? <p>{transcription}</p> : audioURL && <audio controls src={audioURL}></audio>}
         {imageURL && colorBlindness && <img src={imageURL} className={`rounded-xl ${selectedPreference}`} alt="image" style={{ width: '300px', aspectRatio: '[3/2]' }} />}
         {imageURL && !colorBlindness && <img src={imageURL} className="rounded-xl" alt="image" style={{ width: '300px', aspectRatio: '[3/2]' }} />}
         {formattedTime && <p className='text-xs flex items-end'>{formattedTime}</p>}
