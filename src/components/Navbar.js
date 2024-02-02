@@ -29,11 +29,10 @@ function Navbar(props) {
   const activeClass = "block py-2 px-3 md:p-0 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:dark:text-blue-500";
   const inactiveClass = "block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700";
   return (
-    <nav className="sticky top-0 bg-white border-gray-200 dark:bg-gray-900">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav className="sticky flex flex-wrap items-center justify-between top-0 box-border py-5 px-7 bg-gray-900 z-20">
         <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="https://i.ibb.co/kGFrNZP/Bridge-Together.png" alt="BridgeTogether Logo" className="rounded-full h-10" />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">BridgeTogether</span>
+          <img src="https://i.ibb.co/kGFrNZP/Bridge-Together.png" alt="BridgeTogether Logo" className="rounded-full h-12" />
+          <span className="self-center text-3xl font-semibold whitespace-nowrap dark:text-white">BridgeTogether</span>
         </a>
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
 
@@ -73,16 +72,14 @@ function Navbar(props) {
               <Link to="/" className={location.pathname === '/' ? activeClass : inactiveClass} id='Home'>Home</Link>
             </li>
             <li>
-              <Link to="/about" className={location.pathname === '/about' ? activeClass : inactiveClass} id='About'>About</Link>
+              <Link to="" className={location.pathname === '/about' ? activeClass : inactiveClass} id='About'>About</Link>
             </li>
             {user && <li><Link to="/chat" className={location.pathname === '/chat' ? activeClass : inactiveClass} id='Chat'>Chat</Link></li>}
             <li>
-              <Link to="/contact-us" className={location.pathname === '/contact-us' ? activeClass : inactiveClass} id='Contact'>Contact Us</Link>
+              <Link to="" className={location.pathname === '/contact-us' ? activeClass : inactiveClass} id='Contact'>Contact Us</Link>
             </li>
           </ul>
         </div>
-
-      </div>
     </nav>
   );
 }
