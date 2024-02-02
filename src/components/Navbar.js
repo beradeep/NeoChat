@@ -32,7 +32,7 @@ function Navbar(props) {
     <nav className="sticky flex flex-wrap items-center justify-between top-0 box-border py-5 px-7 bg-gray-900 z-20">
         <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="https://i.ibb.co/kGFrNZP/Bridge-Together.png" alt="BridgeTogether Logo" className="rounded-full h-12" />
-          <span className="self-center text-3xl font-semibold whitespace-nowrap dark:text-white">BridgeTogether</span>
+          <span className="self-center text-3xl font-semibold whitespace-nowrap dark:text-white">NeoChat</span>
         </a>
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
 
