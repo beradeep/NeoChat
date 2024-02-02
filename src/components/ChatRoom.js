@@ -12,7 +12,7 @@ import {ReactComponent as Send} from '../icons/send.svg';
 function ChatRoom(props) {
   const [notificationSound] = useState(new Audio(notificationSoundFile));
   const selectedPreference = props.selectedPreference;
-  const dummy = useRef();
+  const chatBoxRef = useRef();
   const messagesRef = firestore.collection('messages');
   const query = messagesRef.orderBy('createdAt');
   const [messages] = useCollectionData(query, { idField: 'id' });
@@ -137,7 +137,6 @@ function ChatRoom(props) {
         photoURL,
       });
       setFormValue('');
-      dummy.current.scrollIntoView({ behavior: 'smooth' });
     }
 
     if (blob) {
@@ -151,7 +150,7 @@ function ChatRoom(props) {
 
   return (
     <>
-      <main ref={dummy} id="chat-box-screen" className="overflow-y-scroll chat-box-screen flex flex-col p-2 gap-y-5 bg-gray-900">
+      <main ref={chatBoxRef} id="chat-box-screen" className="overflow-y-scroll chat-box-screen flex flex-col p-2 gap-y-5 bg-gray-900">
         <div  className='flex min-h-full flex-col no-scrollbar'>
           {messages && messages.map((msg) => (
             <ChatMessage key={msg.id} message={msg} selectedPreference={selectedPreference} />
@@ -188,9 +187,9 @@ function ChatRoom(props) {
           className='hidden'
         />
 
-        <button className='cursor-pointer p-1' onClick={() => setRecord(!record)}>
+        <div className='cursor-pointer p-1' onClick={() => setRecord(!record)}>
           <Mic className="w-8 h-8 fill-white"/>
-        </button>
+        </div>
 
         <button className='cursor-pointer p-1' type="submit" disabled={!formValue && !blob && !image}>
           <Send className="w-8 h-8 fill-white" />
