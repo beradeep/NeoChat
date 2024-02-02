@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { auth } from '../firebase';
 import { AssemblyAI } from 'assemblyai'
+import {ReactComponent as Tick} from '../icons/tick.svg';
+
 
 const client = new AssemblyAI({
   apiKey: process.env.REACT_APP_ASSEMBLY_AI_API_KEY
@@ -67,7 +69,12 @@ function ChatMessage(props) {
         {selectedPreference === 'Deafness' && audioURL ? <p>{transcription}</p> : audioURL && <audio controls src={audioURL}></audio>}
         {imageURL && colorBlindness && <img src={imageURL} className={`rounded-xl ${selectedPreference}`} alt="image" style={{ width: '300px', aspectRatio: '[3/2]' }} />}
         {imageURL && !colorBlindness && <img src={imageURL} className="rounded-xl" alt="image" style={{ width: '300px', aspectRatio: '[3/2]' }} />}
-        {formattedTime && <p className='text-xs flex items-end'>{formattedTime}</p>}
+        {formattedTime && 
+          messageClass === 'sent' ?
+          (<p className='text-xs flex items-end' style={{marginBottom:"-3px", marginRight:"-4px"}}>{formattedTime}&nbsp;<Tick className='h-4 w-4 fill-white'/></p>)
+          :
+          (<p className='text-xs flex items-end' style={{marginBottom:"-3px", marginRight:"-4px"}}>{formattedTime}</p>)
+        }
       </div>
     </div>
   );
