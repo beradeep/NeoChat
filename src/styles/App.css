@@ -28,10 +28,17 @@
     min-height: 100vh;
 }
 
+#message_input
+{
+    width: 85%;
+    left: 8px;
+    z-index: 10;
+}
+
 .visualizer {
     border-radius: 100px;
     height: 40px;
-    width: 90%;
+    width: 85%;
 }
 
 .main-content {

@@ -4,6 +4,9 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { ReactMic } from 'react-mic';
 import ChatMessage from './ChatMessage';
 import notificationSoundFile from '../audio/notification.mp3';
+import {ReactComponent as Clip} from '../icons/clip.svg';
+import {ReactComponent as Mic} from '../icons/mic.svg';
+import {ReactComponent as Send} from '../icons/send.svg';
 
 
 function ChatRoom(props) {
@@ -32,8 +35,11 @@ function ChatRoom(props) {
       });
     });
 
+    const scrollable = document.querySelector('#chat-box-screen');
+    scrollable.scrollTop = scrollable.scrollHeight;
+
     return () => unsubscribe();
-  }, [notificationSound]);
+  }, [notificationSound, messagesRef]);
 
   const onRecordingComplete = (blobObject) => {
     setBlob(blobObject.blob);
@@ -89,7 +95,6 @@ function ChatRoom(props) {
     });
 
     setBlob(null);
-    dummy.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleImageChange = async (e) => {
@@ -117,7 +122,6 @@ function ChatRoom(props) {
     });
 
     setImage(null);
-    dummy.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   const sendMessage = async (e) => {
@@ -144,66 +148,28 @@ function ChatRoom(props) {
     }
   };
 
-  const startRecord = <svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path
-      d="M19 10V12C19 15.866 15.866 19 12 19M5 10V12C5 15.866 8.13401 19 12 19M12 19V22M8 22H16M12 15C10.3431 15 9 13.6569 9 12V5C9 3.34315 10.3431 2 12 2C13.6569 2 15 3.34315 15 5V12C15 13.6569 13.6569 15 12 15Z"
-      stroke="#ffffff"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>;
-
-  const stopRecord = <svg
-    width="800px"
-    height="800px"
-    viewBox="-5 0 32 32"
-    version="1.1"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g
-      id="Page-1"
-      stroke="none"
-      strokeWidth={1}
-      fill="none"
-      fillRule="evenodd"
-    >
-      <g
-        id="Icon-Set-Filled"
-        transform="translate(-107.000000, -309.000000)"
-        fill="#ffffff"
-        stroke="#ffffff"
-      >
-        <path
-          d="M118,333 C121.866,333 125,329.866 125,326 L125,316 C125,312.134 121.866,309 118,309 C114.134,309 111,312.134 111,316 L111,326 C111,329.866 114.134,333 118,333 L118,333 Z M129,328 L127,328 C126.089,332.007 122.282,335 118,335 C113.718,335 109.911,332.007 109,328 L107,328 C107.883,332.799 112.063,336.51 117,336.955 L117,339 L116,339 C115.448,339 115,339.448 115,340 C115,340.553 115.448,341 116,341 L120,341 C120.552,341 121,340.553 121,340 C121,339.448 120.552,339 120,339 L119,339 L119,336.955 C123.937,336.51 128.117,332.799 129,328 L129,328 Z"
-          id="microphone"
-        ></path>
-      </g>
-    </g>
-  </svg>;
 
   return (
     <>
-      <main id="chat-box-screen" className="overflow-y-scroll chat-box-screen flex flex-col p-2 gap-y-5 bg-gray-900">
+      <main ref={dummy} id="chat-box-screen" className="overflow-y-scroll chat-box-screen flex flex-col p-2 gap-y-5 bg-gray-900">
         <div  className='flex min-h-full flex-col no-scrollbar'>
           {messages && messages.map((msg) => (
             <ChatMessage key={msg.id} message={msg} selectedPreference={selectedPreference} />
           ))}
           {renderAudio()}
           {renderImage()}
-          <span ref={dummy}></span>
         </div>
       </main>
 
-      <form onSubmit={sendMessage} className="form fixed right-0 left-0 bottom-0 h-15 flex items-center gap-2 justify-evenly px-5 bg-gray-900 text-slate-50">
-        <input
-          type="text"
-          className="bg-gray-50 h-11 border border-gray-300 text-slate-50 outline-slate-900 text-sm rounded-3xl focus:ring-blue-500 focus:border-blue-500 block w-4/5 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-500 dark:focus:border-slate-500"
-          placeholder="Message"
+      <form onSubmit={sendMessage} className="form fixed right-0 left-0 bottom-0 h-15 flex items-center justify-between px-2 bg-slate-800 text-slate-50">
+        {!record && <input
+          type="text" id="message_input"
+          className="bg-gray-600 h-11 w-4/5 text-slate-50 outline-none text-lg rounded-lg px-2 absolute"
+          placeholder="Type a message..."
           onChange={(e) => setFormValue(e.target.value)}
           value={formValue}
           autoComplete='off'
-        />
+        />}
         <ReactMic
           record={record}
           onStop={onRecordingComplete}
@@ -211,15 +177,23 @@ function ChatRoom(props) {
           backgroundColor="#364050"
         />
 
-        <button type="button" onClick={() => setRecord(!record)} className="relative size-11 inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-blue-700 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-          <span className={`relative flex p-1.5 items-center gap-x-3 transition-all ease-in duration-100 text-white ${record ? "bg-transparent" : "bg-gray-900"} dark:bg-gray-900 rounded-full size-10`}>{record ? stopRecord : startRecord}</span>
+        <label htmlFor="file-upload" className="cursor-pointer p-1">
+          <Clip className="w-8 h-8 fill-white" />
+        </label>
+        <input 
+          id="file-upload"
+          type='file'
+          accept="image/*"
+          onChange={handleImageChange}
+          className='hidden'
+        />
+
+        <button className='cursor-pointer p-1' onClick={() => setRecord(!record)}>
+          <Mic className="w-8 h-8 fill-white"/>
         </button>
 
-        <input type='file' style={{ display: 'none' }} accept="image/*" onChange={handleImageChange} />
-        <img src="/upload.png" alt="image" onClick={() => document.querySelector('input[type="file"]').click()} className="w-8 h-8 cursor-pointer" />
-
-        <button type="submit" disabled={!formValue && !blob && !image}>
-          Send
+        <button className='cursor-pointer p-1' type="submit" disabled={!formValue && !blob && !image}>
+          <Send className="w-8 h-8 fill-white" />
         </button>
       </form>
     </>
