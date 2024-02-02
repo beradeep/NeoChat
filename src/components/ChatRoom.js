@@ -25,6 +25,10 @@ function ChatRoom(props) {
         if (change.type === 'added' && document.hidden) {
           notificationSound.play();
         }
+        if (change.type === 'added') {
+          const scrollable = document.querySelector('#chat-box-screen');
+          scrollable.scrollTop = scrollable.scrollHeight;
+        }
       });
     });
 
@@ -213,10 +217,7 @@ function ChatRoom(props) {
 
         <input type='file' accept="image/*" onChange={handleImageChange} />
 
-        <button type="submit" onClick={() => {
-          const scrollable = document.querySelector('#chat-box-screen');
-          scrollable.scrollTop = scrollable.scrollHeight;
-        }} disabled={!formValue && !blob && !image}>
+        <button type="submit" disabled={!formValue && !blob && !image}>
           Send
         </button>
       </form>
