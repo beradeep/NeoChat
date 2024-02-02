@@ -1,10 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { auth, firestore, storage, firebase } from '../firebase';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { ReactMic } from 'react-mic';
 import ChatMessage from './ChatMessage';
+import notificationSoundFile from '../audio/notification.mp3';
+
 
 function ChatRoom(props) {
+  const [notificationSound] = useState(new Audio(notificationSoundFile));
   const selectedPreference = props.selectedPreference;
   const dummy = useRef();
   const messagesRef = firestore.collection('messages');
@@ -15,6 +18,18 @@ function ChatRoom(props) {
   const [record, setRecord] = useState(false);
   const [blob, setBlob] = useState(null);
   const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = messagesRef.onSnapshot((snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === 'added' && document.hidden) {
+          notificationSound.play();
+        }
+      });
+    });
+
+    return () => unsubscribe();
+  }, [notificationSound]);
 
   const onRecordingComplete = (blobObject) => {
     setBlob(blobObject.blob);
