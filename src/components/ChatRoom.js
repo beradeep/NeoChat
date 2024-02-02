@@ -166,7 +166,7 @@ function ChatRoom(props) {
   return (
     <>
       <main id="chat-box-screen" className="overflow-y-scroll chat-box-screen flex flex-col p-2 gap-y-5 bg-gray-900">
-        <div  className='flex min-h-full flex-col'>
+        <div  className='flex min-h-full flex-col no-scrollbar'>
           {messages && messages.map((msg) => (
             <ChatMessage key={msg.id} message={msg} selectedPreference={selectedPreference} />
           ))}
@@ -176,9 +176,9 @@ function ChatRoom(props) {
         </div>
       </main>
 
-      <form onSubmit={sendMessage} className="form fixed right-0 left-0 bottom-0 h-15 flex items-center justify-evenly px-5 bg-gray-900 text-slate-50">
+      <form onSubmit={sendMessage} className="form fixed right-0 left-0 bottom-0 h-15 flex items-center gap-2 justify-evenly px-5 bg-gray-900 text-slate-50">
         <input
-          type="text" id="first_name"
+          type="text"
           className="bg-gray-50 h-11 border border-gray-300 text-slate-50 outline-slate-900 text-sm rounded-3xl focus:ring-blue-500 focus:border-blue-500 block w-4/5 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-500 dark:focus:border-slate-500"
           placeholder="Message"
           onChange={(e) => setFormValue(e.target.value)}
@@ -192,11 +192,12 @@ function ChatRoom(props) {
           backgroundColor="#364050"
         />
 
-        <button type="button" onClick={() => setRecord(!record)} className="relative size-11 inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+        <button type="button" onClick={() => setRecord(!record)} className="relative size-11 inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-blue-700 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
           <span className={`relative flex p-1.5 items-center gap-x-3 transition-all ease-in duration-100 text-white ${record ? "bg-transparent" : "bg-gray-900"} dark:bg-gray-900 rounded-full size-10`}>{record ? stopRecord : startRecord}</span>
         </button>
 
-        <input type='file' accept="image/*" onChange={handleImageChange} />
+        <input type='file' style={{ display: 'none' }} accept="image/*" onChange={handleImageChange} />
+        <img src="/upload.png" alt="image" onClick={() => document.querySelector('input[type="file"]').click()} className="w-8 h-8 cursor-pointer" />
 
         <button type="submit" onClick={() => {
           const scrollable = document.querySelector('#chat-box-screen');
