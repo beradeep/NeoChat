@@ -28,15 +28,13 @@ function ChatRoom(props) {
         if (change.type === 'added' && document.hidden) {
           notificationSound.play();
         }
-        if (change.type === 'added') {
-          const scrollable = document.querySelector('#chat-box-screen');
-          scrollable.scrollTop = scrollable.scrollHeight;
-        }
       });
     });
 
-    const scrollable = document.querySelector('#chat-box-screen');
-    scrollable.scrollTop = scrollable.scrollHeight;
+    const chatBoxElement = chatBoxRef.current;
+    if (chatBoxElement && !formValue) {
+      chatBoxElement.scrollIntoView({ behavior: 'smooth' });
+    }
 
     return () => unsubscribe();
   }, [notificationSound, messagesRef]);
@@ -150,13 +148,14 @@ function ChatRoom(props) {
 
   return (
     <>
-      <main ref={chatBoxRef} id="chat-box-screen" className="overflow-y-scroll chat-box-screen flex flex-col p-2 gap-y-5 bg-gray-900">
+      <main id="chat-box-screen" className="overflow-y-scroll chat-box-screen flex flex-col p-2 gap-y-5 bg-gray-900">
         <div  className='flex min-h-full flex-col no-scrollbar'>
           {messages && messages.map((msg) => (
             <ChatMessage key={msg.id} message={msg} selectedPreference={selectedPreference} />
           ))}
           {renderAudio()}
           {renderImage()}
+          <span ref={chatBoxRef}></span>
         </div>
       </main>
 
